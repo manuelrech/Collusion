@@ -45,3 +45,6 @@ Now i have created moving averages on different periods for every critical date,
 - ml8000, mu8000
 - ml30000, mu30000
 - ml50000, mu50000
+
+## Random forest classifier
+A RFC has been trained and tested on unseen data and the most relevant fetures turned out to be
