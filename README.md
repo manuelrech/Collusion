@@ -29,6 +29,19 @@ The pattern you see in this picture is the same in all experiments, the red line
 We can define collusion as the moment in which both agents cooperate and will keep on cooperating for the next moves, so maintain collusion. Visually it is simple to see this moment, is the red line becoming negative forever, and to give a `date` to this event we can zoom in and see the exact iteration 
 
 
-![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zooming_process.png)
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zooming_process.jpeg)
 
-For this experiment is iteration
+For this experiment is iteration 159290
+
+## Featues engineering
+After having gone through all the critical dates, in which the previous iteration is non-negative and the following is negative, we have labeled which is the switch date (date in which the red CC line becomes strictly negative). 
+
+Now i have created moving averages on different periods for every critical date, for states CC, DD and DC:
+- 100 interations before and after ml100, mu100
+- 500 interations before and after ml500, mu500
+- ml1000, mu1000
+- ml3000, mu3000
+- ml5000, mu5000
+- ml8000, mu8000
+- ml30000, mu30000
+- ml50000, mu50000
