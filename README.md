@@ -9,5 +9,26 @@ Starting from the research carried out in [this paper](https://www.aeaweb.org/ar
 > When and how is it possible to detect the beginning of tacit collusive behaviour between reinforcement algorithmic powered agents?
 
 # Problem definition
-Due to the characteristics of the [Prisoner's Dilemma game](https://www.investopedia.com/terms/p/prisoners-dilemma.asp#:~:text=Understanding%20the%20Prisoner's%20Dilemma&text=The%20prisoner's%20dilemma%20presents%20a,parties%20choose%20to%20co%2Doperate), players make 1 move at a time, and move after move a `time series` is created with scores for the optimal next move. Scores vary around 0, sometimes they are postive and sometimes negative, depding on the sign, the RL algorihm will undertake an action or the other. At some the scores take values that keep on being strictly positive or strictly negative values (depending on the current state). 
-At this poi
+Due to the characteristics of the [Prisoner's Dilemma game](https://www.investopedia.com/terms/p/prisoners-dilemma.asp#:~:text=Understanding%20the%20Prisoner's%20Dilemma&text=The%20prisoner's%20dilemma%20presents%20a,parties%20choose%20to%20co%2Doperate), players make 1 move at a time, and move after move a `time series` is created with scores for the optimal next move. 
+Scores vary around 0, sometimes they are postive and sometimes negative, depding on the sign, the RL algorihm will undertake cooperation or defection. At some the scores take values that keep on being strictly positive or strictly negative values (depending on the current state) and label that moment as the one where collusion begins. 
+Let's look at an image so that it becomes easier to understand.
+
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zoom0.png)
+
+Every line refers to a current state 
+- red (CC) both cooperate -> collusive state
+- black (DD) both defect 
+- blue (DC) one defect and the other cooperates
+- green (CD) opposite of the blue line
+And the score (dQ) indicates what the next action will be:
+- positve -> next action defect
+- negative -> next action cooperate
+
+The pattern you see in this picture is the same in all experiments, the red line departs from zero sooner than all the others, then after some thousand iterations also the other 3 lines take strictly positive or negative values. 
+
+We can define collusion as the moment in which both agents cooperate and will keep on cooperating for the next moves, so maintain collusion. Visually it is simple to see this moment, is the red line becoming negative forever, and to give a `date` to this event we can zoom in and see the exact iteration 
+
+
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zooming_process.png)
+
+For this experiment is iteration
