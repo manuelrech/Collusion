@@ -56,7 +56,8 @@ The random forest has been trained with 2000 sessions (1000 per agent) and has b
 
 Here's the ROC curve for test data with the same settings as the train
 
-![alt text](https://github.com/manuelrech/Collusion/blob/main/images/var_imp_plot.png)
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/Screenshot 2023-01-26 at 18.34.47.png)
 
+with an AUC of 0.9985019
 
 
