@@ -47,4 +47,6 @@ Now i have created moving averages on different periods for every critical date,
 - ml50000, mu50000
 
 ## Random forest classifier
-A RFC has been trained and tested on unseen data and the most relevant fetures turned out to be
+A RFC has been trained and tested on unseen data and the most relevant fetures turned out to be all averages on the CC red line but also the longest averages on the DC blue line. Here's the variable importance plot of this classifier
+
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/var_imp_plot.png)
