@@ -1,17 +1,15 @@
 # Introduction
-Detecting using a Random Forest Classifier the emergence of collusion in Prisoner Dilemma games played by two reinforcement learning algorithms 
-
-This repository contains the project I have devloped for my Bachelor's thesis in Economics and Finance at the University of Bologna. If you find this topic particlarly interesing you can read all my thesis [here](https://drive.google.com/drive/folders/1YdH2UBitbpYkWG83-rfi_8CWcSFTyeVC?usp=share_link). 
+This repository contains the project developed for my Bachelor's thesis in Economics and Finance at the University of Bologna, where I aimed to detect the emergence of collusion in Prisoner Dilemma games played by two reinforcement learning algorithms using a Random Forest Classifier. If you find this topic particularly interesting, you can read the entire thesis [here](https://drive.google.com/drive/folders/1YdH2UBitbpYkWG83-rfi_8CWcSFTyeVC?usp=share_link). 
 
 
 # Project overview
-Starting from the research carried out in [this paper](https://www.aeaweb.org/articles?id=10.1257/aer.20190623) it is knwon that **algorithmic pricing softwares power by Reinforcement Learning can autonomously learn to collude**. This paper addresses the question
+The project is based on research from [this paper](https://www.aeaweb.org/articles?id=10.1257/aer.20190623) which states that **algorithmic pricing softwares powered by Reinforcement Learning can autonomously learn to collude**. The main question addressed in this project is:
 > When and how is it possible to detect the beginning of tacit collusive behaviour between reinforcement algorithmic powered agents?
 
 # Problem definition
-Due to the characteristics of the [Prisoner's Dilemma game](https://www.investopedia.com/terms/p/prisoners-dilemma.asp#:~:text=Understanding%20the%20Prisoner's%20Dilemma&text=The%20prisoner's%20dilemma%20presents%20a,parties%20choose%20to%20co%2Doperate), players make 1 move at a time, and move after move a `time series` is created with scores for the optimal next move. 
-Scores vary around 0, sometimes they are postive and sometimes negative, depding on the sign, the RL algorihm will undertake cooperation or defection. At some the scores take values that keep on being strictly positive or strictly negative values (depending on the current state) and label that moment as the one where collusion begins. 
-Let's look at an image so that it becomes easier to understand.
+In the [Prisoner's Dilemma game](https://www.investopedia.com/terms/p/prisoners-dilemma.asp#:~:text=Understanding%20the%20Prisoner's%20Dilemma&text=The%20prisoner's%20dilemma%20presents%20a,parties%20choose%20to%20co%2Doperate), players make one move at a time, and with each move, a time series of scores is created, indicating the optimal next move. These scores vary around 0, and depending on whether they are positive or negative, the RL algorithm will undertake cooperation or defection. At some point, the scores take values that remain strictly positive or negative, indicating the beginning of collusion
+
+To visualize this, an example is provided below:
 
 ![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zoom0.png)
 
@@ -24,19 +22,18 @@ And the score (dQ) indicates what the next action will be:
 - positve -> next action defect
 - negative -> next action cooperate
 
-The pattern you see in this picture is the same in all experiments, the red line departs from zero sooner than all the others, then after some thousand iterations also the other 3 lines take strictly positive or negative values. 
+The pattern shown in this image is the same in all experiments, where the red line departs from zero sooner than all the others, then after some thousand iterations, the other 3 lines take strictly positive or negative values.
 
-We can define collusion as the moment in which both agents cooperate and will keep on cooperating for the next moves, so maintain collusion. Visually it is simple to see this moment, is the red line becoming negative forever, and to give a `date` to this event we can zoom in and see the exact iteration 
-
+Collusion is defined as the moment when both agents cooperate and will continue to cooperate for the next moves. This moment is visually obvious, as the red line becomes negative forever. To give a "date" to this event, the exact iteration can be identified by zooming in on the image, as shown below:
 
 ![alt text](https://github.com/manuelrech/Collusion/blob/main/images/zooming_process.jpeg)
 
 For this experiment is iteration 159290
 
 ## Featues engineering
-After having gone through all the critical dates, in which the previous iteration is non-negative and the following is negative, we have labeled which is the switch date (date in which the red CC line becomes strictly negative). 
+After identifying the critical dates, when the previous iteration is non-negative and the following is negative, the switch date (the date on which the red CC line becomes strictly negative) is labeled for all training and testng data
 
-Now i have created moving averages on different periods for every critical date, for states CC, DD and DC:
+Features are created by calculating moving averages on different periods for every critical date, for states CC, DD, and DC:
 - 100 interations before and after ml100, mu100
 - 500 interations before and after ml500, mu500
 - ml1000, mu1000
@@ -47,17 +44,23 @@ Now i have created moving averages on different periods for every critical date,
 - ml50000, mu50000
 
 ## Random forest classifier
-A RFC has been trained and tested on unseen data and the most relevant fetures turned out to be all averages on the CC red line but also the longest averages on the DC blue line. Here's the variable importance plot of this classifier
+A Random Forest Classifier (RFC) was trained and tested on the data generated by the Prisoner's Dilemma game. The classifier was trained on 2000 sessions (1000 per agent) and was tested on the same number of unknown observations. The most relevant features for the classifier were found to be the moving averages of the CC red line, as well as the longest averages of the DC blue line. The variable importance plot of this classifier is shown below:
 
 ![alt text](https://github.com/manuelrech/Collusion/blob/main/images/var_imp_plot.png)
 
-## Results
-The random forest has been trained with 2000 sessions (1000 per agent) and has been tested with the same number of unknown observations. 
+The results of testing the RFC on the unseen data showed a high level of accuracy, with an Area Under the Curve (AUC) of 0.9985019 on the Receiver Operating Characteristic (ROC) curve, as shown below:
 
-Here's the ROC curve for test data with the same settings as the train
+![alt text](https://github.com/manuelrech/Collusion/blob/main/images/roc_test1.png)
 
-![alt text](https://github.com/manuelrech/Collusion/blob/main/images/Screenshot 2023-01-26 at 18.34.47.png)
+## Conclusions
+This project demonstrates that it is possible to detect the emergence of collusive behavior between Reinforcement Learning powered agents playing the repeated game of Prisoner's Dilemma with a high level of accuracy. This was achieved using a Machine Learning algorithm, a Random Forest Classifier. As pointed out by Calvano et al. “Today, the prevalent approach to tacit collusion is relatively lenient, in part because tacit collusion among human decision-makers is difficult to detect." This project provides a method for detecting collusion in the context of algorithmic agents and has the potential to inform regulatory approaches to collusion in digital markets.
 
-with an AUC of 0.9985019
+## Future work
+This project is a proof-of-concept and future research could expand on this work by testing the classifier on different types of games or in more realistic settings. Additionally, further research could explore different machine learning algorithms or feature engineering techniques to improve the detection of collusion.
+
+## Note
+The code and data used in this project can be found in the src and data folders of this repository. If you find this topic particularly interesting, you can read all my thesis [here](https://drive.google.com/drive/folders/1YdH2UBitbpYkWG83-rfi_8CWcSFTyeVC?usp=share_link). 
+
+
 
 
